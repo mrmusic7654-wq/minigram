@@ -1,0 +1,63 @@
+# Android
+/android/*/local.properties
+/android/*/gradle-app.setting
+/android/.gradle
+/android/captures/
+/android/gradlew
+/android/gradlew.bat
+/android/*/build/
+/android/*/release/
+
+# iOS
+/ios/**/Pods/
+/ios/**/.symlinks/
+/ios/**/profile
+/ios/**/xcuserdata
+/ios/.generated/
+/ios/Flutter/App.framework
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Flutter.podspec
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/ephemeral/
+/ios/Flutter/app.flx
+/ios/Flutter/app.zip
+/ios/Flutter/flutter_assets/
+/ios/Flutter/flutter_export_environment.sh
+/ios/ServiceDefinitions.json
+/ios/Runner/GeneratedPluginRegistrant.*
+
+# Build
+/build/
+*.apk
+*.ipa
+*.dSYM.zip
+
+# Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Flutter
+.flutter-plugins
+.flutter-plugins-dependencies
+/Generated.xcconfig
+.flutter/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
