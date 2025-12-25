@@ -1,41 +1,55 @@
-name: minigram
-description: Android Flutter App
-publish_to: 'none'
-version: 1.0.0+1
+name: Build Android APK
 
-environment:
-  sdk: ">=3.0.0 <4.0.0"
+on:
+  push:
+    branches: [ main, master ]
 
-dependencies:
-  flutter:
-    sdk: flutter
-  
-  # MUST-HAVE based on your error:
-  flutter_dotenv: ^5.1.0
-  
-  # State Management (Pick one):
-  provider: ^6.1.1  # Recommended - most stable
-  
-  # OR if you want GetX:
-  # get: ^4.6.5
-  
-  # Networking:
-  dio: ^5.4.3
-  http: ^1.1.2
-  
-  # Storage:
-  shared_preferences: ^2.2.2
-  
-  # UI:
-  cupertino_icons: ^1.0.6
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.1
-
-flutter:
-  uses-material-design: true
-  assets:
-    - .env
-    - assets/
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.22.0'
+    
+    - name: Clean project
+      run: |
+        # Remove non-Android platforms
+        rm -rf ios web macos linux windows 2>/dev/null || true
+        
+        # Remove lock file for fresh install
+        rm -f pubspec.lock
+        rm -rf .packages .dart_tool
+    
+    - name: Install dependencies
+      run: |
+        flutter pub get
+    
+    - name: Fix Gradle
+      run: |
+        # Remove duplicate settings.gradle
+        if [ -f "android/settings.gradle" ] && [ -f "android/settings.gradle.kts" ]; then
+          rm android/settings.gradle
+        fi
+    
+    - name: Build APK
+      run: |
+        flutter clean
+        flutter build apk --release
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: minigram-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
