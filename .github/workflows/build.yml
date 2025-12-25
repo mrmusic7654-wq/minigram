@@ -1,81 +1,41 @@
-name: Build APK
+name: minigram
+description: Android Flutter App
+publish_to: 'none'
+version: 1.0.0+1
 
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+environment:
+  sdk: ">=3.0.0 <4.0.0"
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    env:
-      FLUTTER_VERSION: "3.22.0"
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-    
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-        cache: true
-        cache-key: flutter-${{ env.FLUTTER_VERSION }}
-        cache-path: ${{ runner.tool_cache }}/flutter
-    
-    - name: Flutter Doctor
-      run: flutter doctor -v
-    
-    - name: Install dependencies
-      run: |
-        flutter pub get
-        flutter pub run build_runner build --delete-conflicting-outputs
-    
-    - name: Clean Gradle duplicates
-      run: |
-        # Remove duplicate settings.gradle file
-        if [ -f "android/settings.gradle" ] && [ -f "android/settings.gradle.kts" ]; then
-          echo "Removing duplicate settings.gradle (keeping .kts version)"
-          rm android/settings.gradle
-        fi
-        
-        # Clean gradle caches
-        cd android
-        ./gradlew clean
-        cd ..
-    
-    - name: Analyze code
-      run: flutter analyze
-    
-    - name: Run tests
-      run: flutter test
-    
-    - name: Build APK
-      run: flutter build apk --release --no-tree-shake-icons
-    
-    - name: Build App Bundle (optional)
-      run: flutter build appbundle --release --no-tree-shake-icons
-    
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-        retention-days: 7
-    
-    - name: Upload App Bundle artifact (optional)
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-bundle
-        path: build/app/outputs/bundle/release/app-release.aab
-        retention-days: 7
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # MUST-HAVE based on your error:
+  flutter_dotenv: ^5.1.0
+  
+  # State Management (Pick one):
+  provider: ^6.1.1  # Recommended - most stable
+  
+  # OR if you want GetX:
+  # get: ^4.6.5
+  
+  # Networking:
+  dio: ^5.4.3
+  http: ^1.1.2
+  
+  # Storage:
+  shared_preferences: ^2.2.2
+  
+  # UI:
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/
