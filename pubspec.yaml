@@ -1,109 +1,24 @@
 name: minigram
-description: A modern circuit-themed messaging app
-version: 1.0.0+1
+description: A modern messaging app
 publish_to: 'none'
 
+version: 1.0.0+1
+
 environment:
-  sdk: '>=3.4.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  
-  # State Management
-  provider: ^6.1.1
-  
-  # Networking
-  http: ^1.2.0
-  web_socket_channel: ^2.4.0
-  
-  # Storage
-  shared_preferences: ^2.2.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  
-  # Media & Files
-  cached_network_image: ^3.3.0
-  image_picker: ^1.0.4
-  video_player: ^2.8.3
-  just_audio: ^0.9.35
-  record: ^5.1.0
-  file_picker: ^6.1.1
-  
-  # UI & Animations
-  lottie: ^3.1.0
-  shimmer: ^3.0.0
-  flutter_svg: ^2.0.9
-  intl: ^0.19.0
-  
-  # Utilities
-  uuid: ^4.4.0
-  crypto: ^3.0.3
-  encrypt: ^5.0.3
-  connectivity_plus: ^5.0.2
-  url_launcher: ^6.2.2
-  permission_handler: ^11.3.1
-  flutter_dotenv: ^5.1.0
-  
-  # Audio/Video
-  audioplayers: ^5.3.1
+
+  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
-  build_runner: ^2.4.7
 
 flutter:
   uses-material-design: true
-  
-  # ============================================
-  # ASSETS CONFIGURATION
-  # ============================================
+
   assets:
-    # Images
-    - assets/images/
-    - assets/images/placeholder/
-    
-    # Animations (Lottie JSON files)
-    - assets/animations/
-    
-    # Environment file
-    - .env
-  
-  # ============================================
-  # FONTS CONFIGURATION (Choose ONE option below)
-  # ============================================
-  
-  # OPTION 1: If you have VARIABLE FONT (single file):
-  # fonts:
-  #   - family: Orbitron
-  #     fonts:
-  #       - asset: assets/fonts/Orbitron-VariableFont_wght.ttf
-  
-  # OPTION 2: If you have SEPARATE FONT FILES:
-  fonts:
-    - family: Orbitron
-      fonts:
-        - asset: assets/fonts/Orbitron-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Orbitron-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Orbitron-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Orbitron-Black.ttf
-          weight: 900
-  
-  # OPTION 3: If NO FONT FILES (use system font):
-  # (Remove or comment out the fonts section above)
-  # No fonts section needed - uses system font
-  
-  # ============================================
-  # Android-specific
-  # ============================================
-  android:
-    package: com.example.minigram
-  
-  # iOS-specific (optional, keep for future)
-  ios:
-    bundleIdentifier: com.example.minigram
+    - assets/
