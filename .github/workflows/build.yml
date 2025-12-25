@@ -14,38 +14,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Fix Gradle duplicates and update pubspec
+    - name: Fix Gradle and dependencies
       run: |
-        # Fix settings.gradle duplicate
+        # Remove duplicate settings.gradle if exists
         if [ -f "android/settings.gradle" ] && [ -f "android/settings.gradle.kts" ]; then
           rm android/settings.gradle
         fi
         
-        # Update Gradle wrapper
-        cd android
-        sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.1-all.zip|' gradle/wrapper/gradle-wrapper.properties
-        cd ..
+        # Update Gradle wrapper to 8.1
+        sed -i 's|gradle-8.0-all.zip|gradle-8.1-all.zip|' android/gradle/wrapper/gradle-wrapper.properties
         
-        # Update pubspec.yaml to use exact versions
-        sed -i 's/^  flutter_dotenv: \^[0-9]/  flutter_dotenv: 5.1.0/' pubspec.yaml
-        sed -i 's/^  provider: \^[0-9]/  provider: 6.1.1/' pubspec.yaml
-        sed -i 's/^  http: \^[0-9]/  http: 1.1.2/' pubspec.yaml
-        sed -i 's/^  shared_preferences: \^[0-9]/  shared_preferences: 2.2.2/' pubspec.yaml
-        sed -i 's/^  flutter_form_builder: \^[0-9]/  flutter_form_builder: 9.3.0/' pubspec.yaml
-        sed -i 's/^  go_router: \^[0-9]/  go_router: 13.2.5/' pubspec.yaml
-        
-        # Remove riverpod if exists (causes conflicts)
-        sed -i '/riverpod:/d' pubspec.yaml
-        sed -i '/riverpod_generator:/d' pubspec.yaml
-        sed -i '/riverpod_annotation:/d' pubspec.yaml
-        
-        # Add dependency_overrides if not present
-        if ! grep -q "dependency_overrides:" pubspec.yaml; then
-          echo "
-dependency_overrides:
-  meta: 1.12.0
-  analyzer: 6.4.1" >> pubspec.yaml
-        fi
+        # Update Android build files
+        sed -i "s/kotlin_version = '.*'/kotlin_version = '1.9.0'/" android/build.gradle
+        sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.1.0/' android/build.gradle
+        sed -i 's/compileSdkVersion [0-9]*/compileSdkVersion 34/' android/app/build.gradle
+        sed -i 's/targetSdkVersion [0-9]*/targetSdkVersion 34/' android/app/build.gradle
+        sed -i 's/minSdkVersion [0-9]*/minSdkVersion 23/' android/app/build.gradle
     
     - name: Setup Java
       uses: actions/setup-java@v4
@@ -56,4 +40,26 @@ dependency_overrides:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.22.0
+        flutter-version: '3.22.0'
+    
+    - name: Install Android SDK
+      run: |
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34"
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0"
+    
+    - name: Install dependencies
+      run: |
+        flutter pub get
+    
+    - name: Build APK
+      run: |
+        flutter clean
+        flutter build apk --release
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: minigram-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+        retention-days: 7
