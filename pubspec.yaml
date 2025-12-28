@@ -1,104 +1,30 @@
 name: minigram
-description: A Flutter application
+description: A new Flutter project.
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-
-  # ========== CORE ==========
-  flutter_dotenv: 5.1.0
   
-  # ========== STATE MANAGEMENT ==========
-  provider: 6.1.1
+  cupertino_icons: ^1.0.6
   
-  # ========== HTTP & API ==========
-  dio: 5.4.3
-  http: 1.1.2
-  
-  # ========== JSON ==========
-  json_annotation: 4.8.1
-  
-  # ========== LOCAL STORAGE ==========
-  shared_preferences: 2.2.2
-  hive: 2.2.3
-  hive_flutter: 1.1.0
-  
-  # ========== FORMS ==========
-  flutter_form_builder: 9.3.0
-  
-  # ========== IMAGES ==========
-  cached_network_image: 3.3.0
-  image_picker: 1.1.2
-  
-  # ========== NAVIGATION ==========
-  go_router: 13.2.5
-  
-  # ========== FILE & STORAGE ==========
-  path_provider: 2.1.0
-  permission_handler: 11.3.1
-  
-  # ========== DEVICE FEATURES ==========
-  url_launcher: 6.3.1
-  share_plus: 7.2.2
-  
-  # ========== UTILITIES ==========
-  intl: 0.19.0
-  logger: 2.4.0
-  
-  # ========== ANIMATIONS ==========
-  lottie: 3.1.3
-  
-  # ========== UI ==========
-  cupertino_icons: 1.0.6
+  # FIXED VERSION - Resolves the conflict
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: 3.0.2
-  build_runner: 2.4.11
-  json_serializable: 6.8.0
-  hive_generator: 2.0.1
-  build_config: 1.1.1
-
-dependency_overrides:
-  meta: 1.12.0
-  analyzer: 6.4.1
-  _fe_analyzer_shared: 67.0.0
-  async: 2.11.0
-  collection: 1.18.0
-  source_gen: 1.5.0
-  build_resolvers: 2.4.2
-  build_daemon: 4.0.2
-  test_api: 0.5.1
-  lints: 3.0.0
-  leak_tracker: 10.0.4
-  leak_tracker_flutter_testing: 3.0.3
-  leak_tracker_testing: 3.0.1
-  source_span: 1.10.0
-  stream_channel: 2.1.2
-  string_scanner: 1.2.0
-  term_glyph: 1.2.1
-  typed_data: 1.3.2
-  matcher: 0.12.16+1
-  material_color_utilities: 0.8.0
+  
+  flutter_lints: ^3.0.0
+  
+  # FIXED VERSION - Compatible with json_annotation 4.9.0
+  json_serializable: ^6.8.0
+  build_runner: ^2.4.7
 
 flutter:
   uses-material-design: true
-  
-  assets:
-    - .env
-    - assets/images/
-    - assets/icons/
-    - assets/animations/
-  
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto-Bold.ttf
-          weight: 700
