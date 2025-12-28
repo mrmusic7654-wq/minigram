@@ -9,33 +9,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   # State Management
   provider: ^6.1.1
-  
+
   # Networking
   http: ^1.2.0
   web_socket_channel: ^2.4.0
-  
+
   # Storage
   shared_preferences: ^2.2.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  
+
   # Media & Files
   cached_network_image: ^3.3.0
   image_picker: ^1.1.0
   video_player: ^2.8.3
   just_audio: ^0.9.35
-  record: ^5.0.1
+
+  # 🔴 FIXED HERE (critical)
+  record: ^4.4.4
+
   file_picker: ^6.1.1
-  
+
   # UI & Animations
   lottie: ^3.1.0
   shimmer: ^3.0.0
   flutter_svg: ^2.0.9
   intl: ^0.19.0
-  
+
   # Utilities
   uuid: ^4.4.0
   crypto: ^3.0.3
@@ -44,8 +47,8 @@ dependencies:
   url_launcher: ^6.2.2
   permission_handler: ^11.3.1
   flutter_dotenv: ^5.1.0
-  
-  # Audio/Video - Using compatible version
+
+  # Audio
   audioplayers: ^5.2.1
 
 dev_dependencies:
@@ -56,13 +59,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
+
   assets:
     - assets/images/
     - assets/images/placeholder/
     - assets/animations/
     - .env
-  
+
   fonts:
     - family: Orbitron
       fonts:
@@ -74,9 +77,3 @@ flutter:
           weight: 700
         - asset: assets/fonts/Orbitron-Black.ttf
           weight: 900
-
-android:
-  package: com.example.minigram
-
-ios:
-  bundleIdentifier: com.example.minigram
