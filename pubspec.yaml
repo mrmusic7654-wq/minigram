@@ -72,16 +72,8 @@ flutter:
     - .env
   
   # ============================================
-  # FONTS CONFIGURATION (Choose ONE option below)
+  # FONTS CONFIGURATION
   # ============================================
-  
-  # OPTION 1: If you have VARIABLE FONT (single file):
-  # fonts:
-  #   - family: Orbitron
-  #     fonts:
-  #       - asset: assets/fonts/Orbitron-VariableFont_wght.ttf
-  
-  # OPTION 2: If you have SEPARATE FONT FILES:
   fonts:
     - family: Orbitron
       fonts:
@@ -93,17 +85,15 @@ flutter:
           weight: 700
         - asset: assets/fonts/Orbitron-Black.ttf
           weight: 900
-  
-  # OPTION 3: If NO FONT FILES (use system font):
-  # (Remove or comment out the fonts section above)
-  # No fonts section needed - uses system font
-  
-  # ============================================
-  # Android-specific
-  # ============================================
-  android:
-    package: com.example.minigram
-  
-  # iOS-specific (optional, keep for future)
-  ios:
-    bundleIdentifier: com.example.minigram
+
+# ============================================
+# Android-specific (MUST BE AT ROOT LEVEL)
+# ============================================
+android:
+  package: com.example.minigram
+
+# ============================================
+# iOS-specific (optional, keep for future)
+# ============================================
+ios:
+  bundleIdentifier: com.example.minigram
