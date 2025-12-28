@@ -24,10 +24,10 @@ dependencies:
   
   # Media & Files
   cached_network_image: ^3.3.0
-  image_picker: ^1.0.4
+  image_picker: ^1.1.0
   video_player: ^2.8.3
   just_audio: ^0.9.35
-  record: ^5.1.0
+  record: ^5.0.1
   file_picker: ^6.1.1
   
   # UI & Animations
@@ -45,8 +45,8 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_dotenv: ^5.1.0
   
-  # Audio/Video
-  audioplayers: ^5.3.1
+  # Audio/Video - Using compatible version
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -57,23 +57,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
-  # ============================================
-  # ASSETS CONFIGURATION
-  # ============================================
   assets:
-    # Images
     - assets/images/
     - assets/images/placeholder/
-    
-    # Animations (Lottie JSON files)
     - assets/animations/
-    
-    # Environment file
     - .env
   
-  # ============================================
-  # FONTS CONFIGURATION
-  # ============================================
   fonts:
     - family: Orbitron
       fonts:
@@ -86,14 +75,8 @@ flutter:
         - asset: assets/fonts/Orbitron-Black.ttf
           weight: 900
 
-# ============================================
-# Android-specific (MUST BE AT ROOT LEVEL)
-# ============================================
 android:
   package: com.example.minigram
 
-# ============================================
-# iOS-specific (optional, keep for future)
-# ============================================
 ios:
   bundleIdentifier: com.example.minigram
