@@ -1,53 +1,74 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:minigram/models/user.dart';
 
 class AuthProvider with ChangeNotifier {
-  String? _userId;
-  String? _phoneNumber;
-  bool _isAuthenticated = false;
+  User? _currentUser;
   bool _isLoading = false;
+  bool _isInitializing = true;
+  String? _error;
 
-  String? get userId => _userId;
-  String? get phoneNumber => _phoneNumber;
-  bool get isAuthenticated => _isAuthenticated;
+  User? get currentUser => _currentUser;
   bool get isLoading => _isLoading;
+  bool get isInitializing => _isInitializing;
+  bool get isAuthenticated => _currentUser != null;
+  String? get error => _error;
 
-  Future<void> login(String phoneNumber, String code) async {
+  AuthProvider() {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    try {
+      // Simulate initialization delay
+      await Future.delayed(const Duration(seconds: 2));
+      
+      // Check if user is already logged in (from storage)
+      // final storedUser = await _getStoredUser();
+      // if (storedUser != null) {
+      //   _currentUser = storedUser;
+      // }
+      
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isInitializing = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> login(String phone, String password) async {
     _isLoading = true;
+    _error = null;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
-
-    _phoneNumber = phoneNumber;
-    _userId = 'user_${DateTime.now().millisecondsSinceEpoch}';
-    _isAuthenticated = true;
-    _isLoading = false;
-    
-    notifyListeners();
+    try {
+      await Future.delayed(const Duration(seconds: 2)); // Simulate API call
+      
+      // Mock user for now
+      _currentUser = User(
+        id: '1',
+        name: 'John Doe',
+        phone: phone,
+        avatarUrl: null,
+        isOnline: true,
+        lastSeen: DateTime.now(),
+      );
+      
+    } catch (e) {
+      _error = 'Login failed: ${e.toString()}';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> logout() async {
-    _isLoading = true;
-    notifyListeners();
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    _userId = null;
-    _phoneNumber = null;
-    _isAuthenticated = false;
-    _isLoading = false;
-    
+    _currentUser = null;
     notifyListeners();
   }
 
-  Future<bool> checkAuthStatus() async {
-    _isLoading = true;
+  void clearError() {
+    _error = null;
     notifyListeners();
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    _isLoading = false;
-    notifyListeners();
-    
-    return _isAuthenticated;
   }
 }
