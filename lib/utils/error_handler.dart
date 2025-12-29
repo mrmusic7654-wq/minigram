@@ -1,29 +1,32 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ErrorHandler {
   static void setup() {
-    // Setup error handling for the app
-    FlutterError.onError = (details) {
+    // Setup Flutter error handling
+    FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
-      // You can also send to crash reporting service
-      _logError(details.exception.toString(), details.stack);
+      logError(details.exception, details.stack);
     };
 
-    // Platform errors
-    // PlatformDispatcher.instance.onError = (error, stack) {
-    //   _logError(error.toString(), stack);
-    //   return true;
-    // };
+    // Setup Dart error handling
+    PlatformDispatcher.instance.onError = (error, stack) {
+      logError(error, stack);
+      return true;
+    };
   }
 
-  static void _logError(String error, StackTrace? stack) {
-    // Log error to console or send to analytics
-    debugPrint('Error: $error');
-    if (stack != null) {
-      debugPrint('Stack trace: $stack');
+  static void logError(dynamic error, StackTrace? stack, {String? context}) {
+    // Log errors to console (in production, send to server)
+    debugPrint('═══════════════════════════════════════════════════');
+    if (context != null) {
+      debugPrint('Error Context: $context');
     }
+    debugPrint('Error: $error');
+    debugPrint('Stack Trace: $stack');
+    debugPrint('═══════════════════════════════════════════════════');
     
-    // You can add Firebase Crashlytics or Sentry here
+    // Here you can add Firebase Crashlytics, Sentry, etc.
     // FirebaseCrashlytics.instance.recordError(error, stack);
   }
 
@@ -35,19 +38,5 @@ class ErrorHandler {
         duration: const Duration(seconds: 3),
       ),
     );
-  }
-
-  static void handleApiError(dynamic error, BuildContext context) {
-    String errorMessage = 'An error occurred';
-    
-    if (error is String) {
-      errorMessage = error;
-    } else if (error.toString().contains('socket') || error.toString().contains('network')) {
-      errorMessage = 'No internet connection';
-    } else if (error.toString().contains('timeout')) {
-      errorMessage = 'Request timeout';
-    }
-    
-    showErrorSnackbar(context, errorMessage);
   }
 }
