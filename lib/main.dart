@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:minigram/app.dart'; // Your main App class
-import 'package:minigram/utils/error_handler.dart';
+import 'package:minigram/app.dart';
 
 Future<void> main() async {
   // Ensure Flutter is initialized
@@ -26,18 +25,11 @@ Future<void> main() async {
       systemNavigationBarIconBrightness: Brightness.light,
     ));
     
-    // Initialize error handling
-    ErrorHandler.setup();
-    
     // Run the application
     runApp(const App());
     
-  } catch (error, stackTrace) {
-    // Handle any initialization errors
-    ErrorHandler.logError(error, stackTrace, context: 'App Initialization');
-    
-    // In production, you might want to show a user-friendly error screen
-    // For now, we'll run the app anyway and let error handling deal with it
+  } catch (error) {
+    // If initialization fails, show a simple error screen
     runApp(
       MaterialApp(
         home: Scaffold(
@@ -64,25 +56,13 @@ Future<void> main() async {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    'Failed to initialize app. Please restart.',
+                    'Error: $error',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey[400],
+                    style: const TextStyle(
+                      color: Colors.grey,
                       fontSize: 14,
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    // Try to run the app again
-                    runApp(const App());
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text('Retry'),
                 ),
               ],
             ),
