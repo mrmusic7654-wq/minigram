@@ -1,113 +1,67 @@
-// lib/theme/theme_manager.dart
 import 'package:flutter/material.dart';
 
-class ThemeManager with ChangeNotifier {
-  ThemeMode _currentMode = ThemeMode.gold;
+// Custom theme mode for your app
+enum AppThemeMode { light, dark, gold }
+
+class ThemeManager {
+  static AppThemeMode _currentMode = AppThemeMode.gold;
   
-  ThemeMode get currentMode => _currentMode;
+  static AppThemeMode get currentMode => _currentMode;
   
-  set currentMode(ThemeMode mode) {
+  static void setThemeMode(AppThemeMode mode) {
     _currentMode = mode;
-    notifyListeners();
   }
   
-  ThemeData get currentTheme {
-    switch (_currentMode) {
-      case ThemeMode.gold:
-        return _buildGoldTheme();
-      case ThemeMode.dark:
-        return _buildDarkTheme();
-      case ThemeMode.light:
+  static ThemeData getThemeData(AppThemeMode mode) {
+    switch (mode) {
+      case AppThemeMode.light:
         return _buildLightTheme();
+      case AppThemeMode.dark:
+        return _buildDarkTheme();
+      case AppThemeMode.gold:
+        return _buildGoldTheme();
     }
   }
   
-  Color get primaryColor {
-    switch (_currentMode) {
-      case ThemeMode.gold:
-        return const Color(0xFFF7931A);
-      case ThemeMode.dark:
-        return const Color(0xFF00f3ff);
-      case ThemeMode.light:
-        return const Color(0xFF3b82f6);
-    }
+  static ThemeData _buildLightTheme() {
+    return ThemeData(
+      brightness: Brightness.light,
+      primaryColor: Colors.blue,
+      colorScheme: ColorScheme.light(
+        primary: Colors.blue,
+        secondary: Colors.orange,
+      ),
+      // Add more light theme properties
+    );
   }
   
-  ThemeData _buildGoldTheme() {
-    return ThemeData.dark().copyWith(
-      primaryColor: const Color(0xFFF7931A),
-      scaffoldBackgroundColor: Colors.black,
+  static ThemeData _buildDarkTheme() {
+    return ThemeData(
+      brightness: Brightness.dark,
+      primaryColor: Colors.blueAccent,
+      colorScheme: ColorScheme.dark(
+        primary: Colors.blueAccent,
+        secondary: Colors.orangeAccent,
+      ),
+      // Add more dark theme properties
+    );
+  }
+  
+  static ThemeData _buildGoldTheme() {
+    return ThemeData(
+      brightness: Brightness.dark,
+      primaryColor: const Color(0xFFD4AF37), // Gold color
+      scaffoldBackgroundColor: const Color(0xFF121212),
       colorScheme: const ColorScheme.dark(
-        primary: Color(0xFFF7931A),
-        secondary: Color(0xFF2a1d0a),
-        surface: Colors.black,
+        primary: Color(0xFFD4AF37),
+        secondary: Color(0xFFFFD700),
+        surface: Color(0xFF1E1E1E),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: Color(0xFF1A1A1A),
+        foregroundColor: Color(0xFFD4AF37),
       ),
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontFamily: 'Orbitron',
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFFF7931A),
-          letterSpacing: 1.5,
-        ),
-        titleLarge: TextStyle(
-          fontFamily: 'Orbitron',
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-          letterSpacing: 1.2,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-  
-  ThemeData _buildDarkTheme() {
-    return ThemeData.dark().copyWith(
-      primaryColor: const Color(0xFF00f3ff),
-      scaffoldBackgroundColor: const Color(0xFF0f172a),
-      colorScheme: const ColorScheme.dark(
-        primary: Color(0xFF00f3ff),
-        secondary: Color(0xFF1e293b),
-        surface: Color(0xFF0f172a),
-      ),
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontFamily: 'Orbitron',
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF00f3ff),
-          letterSpacing: 1.5,
-        ),
-      ),
-    );
-  }
-  
-  ThemeData _buildLightTheme() {
-    return ThemeData.light().copyWith(
-      primaryColor: const Color(0xFF3b82f6),
-      scaffoldBackgroundColor: const Color(0xFFf8fafc),
-      colorScheme: const ColorScheme.light(
-        primary: Color(0xFF3b82f6),
-        secondary: Color(0xFFf1f5f9),
-        surface: Colors.white,
-      ),
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontFamily: 'Orbitron',
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF1e293b),
-          letterSpacing: 1.5,
-        ),
-      ),
+      // Add circuit-themed decorations
     );
   }
 }
