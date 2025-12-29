@@ -1,37 +1,78 @@
 import 'package:flutter/foundation.dart';
+import 'package:minigram/models/user.dart';
 
-enum MessageType { text, voice, image, video, document }
-enum MessageStatus { sending, sent, delivered, read, failed }
+enum MessageType {
+  text,
+  image,
+  video,
+  audio,
+  document,
+  location,
+  contact,
+}
 
-@immutable
 class Message {
   final String id;
   final String chatId;
-  final String senderId;
+  final User sender;
+  final String content;
   final MessageType type;
-  final String text;
-  final String? mediaUrl;
-  final int? duration;
-  final int size;
-  final MessageStatus status;
   final DateTime timestamp;
+  final bool isRead;
+  final bool isSent;
   final bool isEdited;
-  final bool isDeleted;
+  final List<String>? mediaUrls;
+  final String? replyToId;
+  final Map<String, dynamic>? metadata;
 
-  const Message({
+  Message({
     required this.id,
     required this.chatId,
-    required this.senderId,
-    required this.type,
-    required this.text,
-    this.mediaUrl,
-    this.duration,
-    this.size = 0,
-    this.status = MessageStatus.sent,
+    required this.sender,
+    required this.content,
+    this.type = MessageType.text,
     required this.timestamp,
+    this.isRead = false,
+    this.isSent = true,
     this.isEdited = false,
-    this.isDeleted = false,
+    this.mediaUrls,
+    this.replyToId,
+    this.metadata,
   });
 
-  bool get isMe => senderId == 'me';
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      id: json['id'],
+      chatId: json['chatId'],
+      sender: User.fromJson(json['sender']),
+      content: json['content'],
+      type: MessageType.values[json['type']],
+      timestamp: DateTime.parse(json['timestamp']),
+      isRead: json['isRead'],
+      isSent: json['isSent'],
+      isEdited: json['isEdited'] ?? false,
+      mediaUrls: json['mediaUrls'] != null 
+          ? List<String>.from(json['mediaUrls'])
+          : null,
+      replyToId: json['replyToId'],
+      metadata: json['metadata'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'chatId': chatId,
+      'sender': sender.toJson(),
+      'content': content,
+      'type': type.index,
+      'timestamp': timestamp.toIso8601String(),
+      'isRead': isRead,
+      'isSent': isSent,
+      'isEdited': isEdited,
+      'mediaUrls': mediaUrls,
+      'replyToId': replyToId,
+      'metadata': metadata,
+    };
+  }
 }
