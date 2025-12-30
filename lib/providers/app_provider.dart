@@ -1,21 +1,28 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-class AppState extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
+class AppProvider extends ChangeNotifier {
+  /// Bottom navigation index
+  int _currentIndex = 0;
 
-  ThemeMode get themeMode => _themeMode;
+  int get currentIndex => _currentIndex;
 
-  void setThemeMode(ThemeMode mode) {
-    _themeMode = mode;
+  void setIndex(int index) {
+    _currentIndex = index;
     notifyListeners();
   }
 
-  void toggleTheme() {
-    if (_themeMode == ThemeMode.light) {
-      _themeMode = ThemeMode.dark;
-    } else {
-      _themeMode = ThemeMode.light;
-    }
+  /// Dummy unread count
+  int _totalUnread = 0;
+
+  int get totalUnread => _totalUnread;
+
+  void setUnread(int value) {
+    _totalUnread = value;
     notifyListeners();
   }
+
+  /// Chat list placeholder (safe empty list)
+  final List<dynamic> _chats = [];
+
+  List<dynamic> get chats => _chats;
 }
